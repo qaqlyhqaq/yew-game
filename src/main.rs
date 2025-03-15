@@ -1,10 +1,17 @@
+mod component;
+
 use yew::prelude::*;
 use gloo::console;
+
+
+
 
 #[function_component(App)]
 fn app() -> Html {
 
     let items = vec!["Hello", "World"];
+
+    let node = "asdf".to_html();
     html! {
         <>
         <ul>
