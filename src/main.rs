@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use gloo::console;
 
 #[function_component(App)]
 fn app() -> Html {
@@ -11,5 +12,6 @@ fn app() -> Html {
 }
 
 fn main() {
+    console::log!("main start !");
     yew::Renderer::<App>::new().render();
 }
