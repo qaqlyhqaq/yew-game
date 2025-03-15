@@ -1,0 +1,11 @@
+[serve]
+address = "127.0.0.1"
+port = 8000
+
+[build]
+target = "index.html"
+watch ="src"
+
+[[copy]]
+src = "static"
+dest = "."
