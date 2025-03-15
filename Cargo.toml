@@ -6,4 +6,5 @@ edition = "2024"
 [dependencies]
 yew={version = "*",features = ["csr"]}
 gloo = {version = "*"}
-yew-router = {version = "*"}
+### 不使用 yew 下路由 以适配其他前端库使用
+#yew-router = {version = "*"}
