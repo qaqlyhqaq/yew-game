@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 yew={version = "*",features = ["csr"]}
 gloo = {version = "*"}
+yew-router = {version = "*"}
