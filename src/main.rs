@@ -2,7 +2,7 @@ mod component;
 
 use yew::prelude::*;
 use gloo::console;
-use crate::component::container::{AppState, Container};
+use crate::component::container::{ Container};
 
 #[function_component(App)]
 fn app() -> Html {

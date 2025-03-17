@@ -1,4 +1,5 @@
-use yew::{function_component, html, use_context, AttrValue, Callback, Component, Context, ContextProvider, Html, Properties};
+use std::rc::Rc;
+use yew::{function_component, html, use_context, use_reducer, use_reducer_eq, AttrValue, Callback, Component, Context, ContextProvider, Html, Properties, Reducible, UseReducerHandle};
 
 use derivative::Derivative;
 
@@ -22,21 +23,29 @@ impl  From<String> for Container {
 }
 
 
-#[derive(Clone, PartialEq, Properties)]
-pub struct ChildProps {
-    pub name: AttrValue,
-    pub on_clicked: Callback<AttrValue>,
-}
+
 
 
 // 定义共享状态结构体
 #[derive(Clone, PartialEq)]
+#[derive(Debug, Eq)]
 #[derive(Derivative)]
 #[derivative(Default)]
 pub struct AppState {
     #[derivative(Default(value = r#""我是主题字段!".to_string()"#))]
-    theme: String,
+    pub theme: String,
 }
+
+
+impl Reducible for AppState {
+    type Action = String;
+
+    fn reduce(self: Rc<Self>, action: Self::Action) -> Rc<Self> {
+        AppState { theme: action }.into()
+    }
+}
+
+pub type MessageContext = UseReducerHandle<AppState>;
 
 
 impl Component for Container {
@@ -57,14 +66,25 @@ impl Component for Container {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let state = AppState::default();
+
+        // let msg_ctx = use_reducer::<AppState, _>(|| {
+        //
+        // });
+
         html! {
-            <ContextProvider<AppState> context={state.clone()}>
-                <span>{self.parent_id.clone()}</span>
-                <br/>
+            <ContextProvider<AppState> context={AppState::default()}>
                 <Children/>
             </ContextProvider<AppState>>
         }
+        // html! {
+        //     <ContextProvider<MessageContext> context={msg}>
+        //         <Producer/>
+        //         <br/>
+        //         <span>{self.parent_id.clone()}</span>
+        //         <br/>
+        //         <Children/>
+        //     </ContextProvider<MessageContext>>
+        // }
     }
 
     fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
@@ -81,10 +101,27 @@ impl Component for Container {
 
 #[function_component]
 pub fn Children() -> Html {
-    let msg_ctx = use_context::<AppState>().unwrap();
+    let msg_ctx = use_context::<MessageContext>().unwrap();
+        // .and_then(||{Some(use_effect_with_deps())});
+
+
     html! {
         <>
             <span>{format!("theme:{}",msg_ctx.theme)}</span>
         </>
+    }
+}
+
+
+
+
+#[function_component]
+pub fn Producer() -> Html {
+    let msg_ctx = use_context::<MessageContext>().unwrap();
+
+    html! {
+        <button onclick={move |_| msg_ctx.dispatch("Message Received.".to_string())}>
+            {"PRESS ME"}
+        </button>
     }
 }
