@@ -1,6 +1,8 @@
+use std::collections::HashMap;
+use std::fmt::format;
 use std::rc::Rc;
 use std::sync::atomic::AtomicUsize;
-use yew::{function_component, html, use_context, use_reducer, use_reducer_eq, AttrValue, Callback, Component, Context, ContextProvider, Html, Properties, Reducible, UseReducerHandle};
+use yew::{function_component, html, use_context, use_reducer, use_reducer_eq, AttrValue, Callback, Classes, Component, Context, ContextProvider, Html, Properties, Reducible, UseReducerHandle};
 
 use derivative::Derivative;
 
@@ -68,14 +70,17 @@ pub fn ContainerLyh() -> Html{
 #[function_component]
 pub fn Children() -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
+
+    let child = vec!["全部任务","进行中","已完成","已超期","待开始","暂停","取消"];
+
     html! {
         <>
-            <Producer title="1"/>
-            <Producer title="2"/>
-            <Producer title="3"/>
-            <Producer title="4"/>
-            <Producer title="5"/>
-            <Producer title="6"/>
+        <>
+        {for child.into_iter()
+        .map(|item|html!{
+            <Producer title={item} size={(80,30)} />
+        })}
+        </>
             <br/>
             <span>{
             if msg_ctx.atomic_count == AppState::default().atomic_count{
@@ -93,6 +98,8 @@ pub struct HeadItem{
     title:String,
     #[prop_or_default]
     value:Option<String>,
+    #[prop_or_default]
+    size:Option<(u32,u32)>,
 }
 
 
@@ -102,15 +109,23 @@ pub fn Producer(head_item: &HeadItem) -> Html {
 
     let title = format!("last click : {}", head_item.title.clone());
 
+    let mut style= String::new() ;
+
+    let _ = head_item.size
+        .is_some_and(|t| {
+            style = format!("width:{}px;height:{}px;", t.0, t.1);
+            true
+        });
+
     html! {
-        <button onclick={move |_| msg_ctx.dispatch(
+        <button  style={style}  onclick={move |_| msg_ctx.dispatch(
             AppState{
                 theme: title.clone(),
                 atomic_count:msg_ctx.atomic_count+1
             }
         )}>
             {
-                format!("按钮:{}",head_item.title.clone())
+                format!("{}",head_item.title.clone())
             }
         </button>
     }
