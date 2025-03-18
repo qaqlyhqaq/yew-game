@@ -73,8 +73,15 @@ pub fn Children() -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
     html! {
         <>
-        <Producer/>
-            <span>{format!("theme:{}->{}",msg_ctx.theme,msg_ctx.atomic_count)}</span>
+            <Producer/>
+            <br/>
+            <span>{
+            if msg_ctx.atomic_count == AppState::default().atomic_count{
+                "未开始点击".to_string()
+            }else{
+            format!("内容:{}->{}",msg_ctx.theme,msg_ctx.atomic_count)
+            }
+        }</span>
         </>
     }
 }
@@ -93,7 +100,7 @@ pub fn Producer() -> Html {
                 atomic_count:msg_ctx.atomic_count+1
             }
         )}>
-            {"PRESS ME"}
+            {"增加点击按钮"}
         </button>
     }
 }
