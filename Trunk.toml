@@ -5,7 +5,3 @@ addresses=["127.0.0.1"]
 [build]
 target = "index.html"
 watch ="src"
-
-[[copy]]
-src = "static"
-dest = "."
