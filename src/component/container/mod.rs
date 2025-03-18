@@ -53,9 +53,6 @@ pub type MessageContext = UseReducerHandle<AppState>;
 
 #[function_component]
 pub fn ContainerLyh() -> Html{
-
-
-
         let msg_ctx = use_reducer::<AppState, _>(|| {
             AppState::default()
         });
@@ -73,7 +70,12 @@ pub fn Children() -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
     html! {
         <>
-            <Producer/>
+            <Producer title="1" value="<UNK>!" />
+            <Producer title="2" value="<UNK>!"/>
+            <Producer title="3" value="<UNK>!"/>
+            <Producer title="4" value="<UNK>!"/>
+            <Producer title="5" value="<UNK>!"/>
+            <Producer title="6" value="<UNK>!"/>
             <br/>
             <span>{
             if msg_ctx.atomic_count == AppState::default().atomic_count{
@@ -86,21 +88,29 @@ pub fn Children() -> Html {
     }
 }
 
-
+#[derive(Properties, Debug, PartialEq)]
+pub struct HeadItem{
+    title:String,
+    value:String,
+}
 
 
 #[function_component]
-pub fn Producer() -> Html {
+pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
+    let title = format!("last click : {}", head_item.title.clone());
+    
     html! {
         <button onclick={move |_| msg_ctx.dispatch(
             AppState{
-                theme: "点击计数".to_string(),
+                theme: title.clone(),
                 atomic_count:msg_ctx.atomic_count+1
             }
         )}>
-            {"增加点击按钮"}
+            {
+                format!("按钮:{}",head_item.title.clone())
+            }
         </button>
     }
 }
