@@ -129,26 +129,6 @@ pub struct HeadItem {
 pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
-    let title_count_str = msg_ctx
-        .hash_map
-        .get(&head_item.title)
-        .map_or_else(|| "0".to_string(), |count| format!("{}", count));
-
-    let title = format!("last click : {}", head_item.title.clone());
-
-    let mut style = String::from("padding-left: 1px;");
-    style.push_str("padding-right: 20px;");
-    style.push_str("margin-left: 20px;");
-
-    let _ = head_item.size.is_some_and(|t| {
-        style.push_str(format!("height:{}px;", t.1).as_str());
-        true
-    });
-
-    let title = head_item.title.clone();
-
-
-
     structure_plural_function!(
         "全部任务",
         "进行中",
@@ -157,24 +137,7 @@ pub fn Producer(head_item: &HeadItem) -> Html {
         "待开始",
         "暂停",
         "取消",
-        title,
         msg_ctx,
         head_item
     )
-
-    // html! {
-    //     <button  style={style}  onclick={move  |event:yew::html::onclick::Event|
-    //         {
-    //             let active =  {
-    //                 // let title = head_item.title.clone();
-    //                 ActiveWrapper::ClickButton(event.as_string().unwrap())
-    //             };
-    //             msg_ctx.dispatch(active)
-    //         }
-    //     }>
-    //         {
-    //             format!("{}({})",head_item.title.clone(),title_count_str.clone())
-    //         }
-    //     </button>
-    // }
 }
