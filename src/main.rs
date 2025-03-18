@@ -2,12 +2,12 @@ mod component;
 
 use yew::prelude::*;
 use gloo::console;
-use crate::component::container::{ Container};
+use crate::component::container::{Container, ContainerLyh};
 
 #[function_component(App)]
 fn app() -> Html {
     html! {
-        <Container/>
+        <ContainerLyh/>
     }
 }
 
