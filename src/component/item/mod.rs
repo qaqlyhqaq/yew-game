@@ -4,7 +4,7 @@ use yew::ToHtml;
 #[derive(Debug)]
 pub struct Item<T>
 where
-T: ToHtml
+    T: ToHtml,
 {
     //T 为一个属性,可自由转换到某个项
     props: Vec<T>,

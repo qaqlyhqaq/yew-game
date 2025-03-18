@@ -1,8 +1,8 @@
 mod component;
 
-use yew::prelude::*;
-use gloo::console;
 use crate::component::container::{Container, ContainerLyh};
+use gloo::console;
+use yew::prelude::*;
 
 #[function_component(App)]
 fn app() -> Html {
