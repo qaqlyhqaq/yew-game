@@ -1,13 +1,15 @@
 mod callbackTool;
+mod verticalDiv;
 
+
+use crate::component::container::verticalDiv::VerticalDiv;
 use crate::structure_plural_function;
 use derivative::Derivative;
 use std::collections::HashMap;
 use std::rc::Rc;
-use web_sys::MouseEvent;
 use yew::{
-    AttrValue, Callback, Classes, Component, Context, ContextProvider, Html, Properties, Reducible,
-    UseReducerHandle, function_component, html, use_context, use_reducer, use_reducer_eq,
+    function_component, html, use_context, use_reducer, Component,
+    ContextProvider, Html, Properties, Reducible, UseReducerHandle,
 };
 
 /// 表达一个导出module 容器,根据获取父组件id,来记录组件
@@ -75,12 +77,26 @@ pub type MessageContext = UseReducerHandle<AppState>;
 pub fn ContainerLyh() -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
+    let vertical_div_items = vec!["全部任务","我创建的任务","我参与的任务","下属的任务"];
+
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
             <Children/>
+            <VerticalDiv>{
+            vertical_div_items
+            .into_iter()
+            .map(|item| {html!{<div>{item}</div>}})
+            .collect::<Vec<_>>()
+            }
+            </VerticalDiv>
+            <div style="width=100px;height=100px;" >{"1111"}< /div>
+            <div style="width=100px;height=100px;" >{"2222"}< /div>
+            <div style="width=100px;height=100px;" >{"3333"}< /div>
         </ContextProvider<MessageContext>>
     }
 }
+
+//background:black;
 
 #[function_component]
 pub fn Children() -> Html {
