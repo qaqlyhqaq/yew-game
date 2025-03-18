@@ -7,19 +7,19 @@ use yew::{function_component, html};
 #[allow(unused)]
 #[macro_export]
 macro_rules!  structure_plural_function{
-    ($($name:literal),*,$msg_ctx:ident,$head_item:ident) => {
+    ($($name:literal),*,$msg_ctx:ident,$properties:ident) => {
         $(
-        if $head_item.title.clone().eq($name){
+        if $properties.title.clone().eq($name){
             let mut style = String::from("padding-left: 1px;");
                 style.push_str("padding-right: 20px;");
                 style.push_str("margin-left: 20px;");
-            let _ = $head_item.size.is_some_and(|t| {
+            let _ = $properties.size.is_some_and(|t| {
                 style.push_str(format!("height:{}px;", t.1).as_str());
                 true
             });
             let title_count_str = $msg_ctx
                 .hash_map
-                .get(&$head_item.title)
+                .get(&$properties.title)
                 .map_or_else(|| "0".to_string(), |count| format!("{}", count));
 
             html! {
@@ -32,14 +32,14 @@ macro_rules!  structure_plural_function{
             }
             }>
             {
-                format!("{}({})", $head_item.title.clone() , title_count_str.clone() )
+                format!("{}({})", $properties.title.clone() , title_count_str.clone() )
             }
             </button>
             }
             } else )*
          {
              //结尾匹配分支
-             unreachable!("出现未匹配值:{}",$head_item.title.clone())
+             unreachable!("出现未匹配值:{}",$properties.title.clone())
         }
     }
 }
