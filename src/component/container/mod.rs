@@ -70,12 +70,12 @@ pub fn Children() -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
     html! {
         <>
-            <Producer title="1" value="<UNK>!" />
-            <Producer title="2" value="<UNK>!"/>
-            <Producer title="3" value="<UNK>!"/>
-            <Producer title="4" value="<UNK>!"/>
-            <Producer title="5" value="<UNK>!"/>
-            <Producer title="6" value="<UNK>!"/>
+            <Producer title="1"/>
+            <Producer title="2"/>
+            <Producer title="3"/>
+            <Producer title="4"/>
+            <Producer title="5"/>
+            <Producer title="6"/>
             <br/>
             <span>{
             if msg_ctx.atomic_count == AppState::default().atomic_count{
@@ -91,7 +91,8 @@ pub fn Children() -> Html {
 #[derive(Properties, Debug, PartialEq)]
 pub struct HeadItem{
     title:String,
-    value:String,
+    #[prop_or_default]
+    value:Option<String>,
 }
 
 
@@ -100,7 +101,7 @@ pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
     let title = format!("last click : {}", head_item.title.clone());
-    
+
     html! {
         <button onclick={move |_| msg_ctx.dispatch(
             AppState{
