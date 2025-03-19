@@ -104,20 +104,28 @@ pub fn ContainerLyh() -> Html {
             </VerticalDiv>
          <div  style="display: flex;flex-direction: column;"  >
             <Collapsible title="展开">
+                    <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
+                    <div>
                     <label>{"任务名称:"}</label>
                     <input type="text" placeholder="任务编号/任务名称" name="<UNK>" id="<UNK>" checked=true/>
+                    </div>
+                    <div>
                     <label>{"所属项目:"}</label>
                     <select >
                         <option selected=true>{"选项一"}</option>
                         <option selected=true>{"选项二"}</option>
                         <option selected=true>{"选项三"}</option>
                     </select>
+                    </div>
+                    <div>
                     <label>{"优先级:"}</label>
                     <select >
                         <option selected=true>{"选项一"}</option>
                         <option selected=true>{"选项二"}</option>
                         <option selected=true>{"选项三"}</option>
                     </select>
+                    </div>
+                    </div>
                     <br/>
                     <label>{"负责人:"}</label>
                     <input type="text" placeholder="负责人姓名" name="<UNK>" id="<UNK>" checked=true/>
