@@ -95,7 +95,7 @@ pub fn ContainerLyh() -> Html {
             }
             </VerticalDiv>
          <div  style="display: flex;"  >
-            <Collapsible title="asdf">
+            <Collapsible title="展开">
                     <label>{"任务名称:"}</label>
                     <input type="text" placeholder="任务编号/任务名称" name="<UNK>" id="<UNK>" checked=true/>
                     <label>{"所属项目:"}</label>
