@@ -37,8 +37,8 @@ pub fn Collapsible(props: &Props) -> Html {
     let arrow = if *is_expanded { "▼" } else { "▶" };
 
     html! {
-        <div class="collapse-container">
-            <div class="collapse-header" onclick={ontoggle}>
+        <div >
+            <div  onclick={ontoggle}>
                 <span class="arrow">{ arrow }</span>
                 <span class="title">{ &props.title }</span>
             </div>
