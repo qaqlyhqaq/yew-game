@@ -9,16 +9,14 @@ pub struct Props {
     pub children: Html,
 }
 
+
+//display="flex" align-items="center"  height="200px"
 #[function_component]
 pub fn VerticalDiv(props: &Props) -> Html {
 
     html! {
-        <div >
-        <div style="float:left"></div>
-        <div style="clear:both"></div>
+        <div style="display: flex; flex-direction: column;"  >
         {props.children.clone()}
-        <div style="clear:left"></div>
-        <div style="float:both"></div>
         </div>
     }
 }

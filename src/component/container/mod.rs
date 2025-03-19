@@ -1,6 +1,6 @@
 mod callbackTool;
 mod verticalDiv;
-
+mod collapsible;
 
 use crate::component::container::verticalDiv::VerticalDiv;
 use crate::structure_plural_function;
@@ -11,6 +11,7 @@ use yew::{
     function_component, html, use_context, use_reducer, Component,
     ContextProvider, Html, Properties, Reducible, UseReducerHandle,
 };
+use crate::component::container::collapsible::Collapsible;
 
 /// 表达一个导出module 容器,根据获取父组件id,来记录组件
 ///  大小,夫组件id,以及其他详细内容
@@ -73,6 +74,7 @@ impl Reducible for AppState {
 
 pub type MessageContext = UseReducerHandle<AppState>;
 
+//style="display: flex; flex-direction: column;"
 #[function_component]
 pub fn ContainerLyh() -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
@@ -82,16 +84,22 @@ pub fn ContainerLyh() -> Html {
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
             <Children/>
-            <VerticalDiv>{
+        <div  style="display: flex; row: column;"  >
+            <VerticalDiv >
+        <span>{"任务分类"}</span>
+        {
             vertical_div_items
             .into_iter()
-            .map(|item| {html!{<div>{item}</div>}})
+            .map(|item| {html!{<button >{item}</button>}})
             .collect::<Vec<_>>()
             }
             </VerticalDiv>
-            <div style="width=100px;height=100px;" >{"1111"}< /div>
-            <div style="width=100px;height=100px;" >{"2222"}< /div>
-            <div style="width=100px;height=100px;" >{"3333"}< /div>
+         <div  style="display: flex;"  >
+            <Collapsible title="asdf">
+                    <span>{"<UNK>"}</span>
+            </Collapsible >
+        </div>
+        </div>
         </ContextProvider<MessageContext>>
     }
 }
@@ -144,7 +152,6 @@ pub struct HeadItem {
 #[function_component]
 pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
-
     structure_plural_function!(
         "全部任务",
         "进行中",
