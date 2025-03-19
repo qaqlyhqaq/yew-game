@@ -43,7 +43,13 @@ pub fn Collapsible(props: &Props) -> Html {
                 <span class="title">{ &props.title }</span>
             </div>
             <div class={content_class}>
-                { props.children.clone() }
+                {
+                    if *is_expanded {
+                    props.children.clone()
+                    }else{
+                    html!{}
+                }
+                }
             </div>
         </div>
     }
