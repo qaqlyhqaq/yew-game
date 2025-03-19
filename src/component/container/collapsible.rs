@@ -45,10 +45,12 @@ pub fn Collapsible(props: &Props) -> Html {
             <div class={content_class}>
                 {
                     if *is_expanded {
-                    props.children.clone()
+                        //展开
+                        props.children.clone()
                     }else{
-                    html!{}
-                }
+                        //关闭
+                        html!{}
+                    }
                 }
             </div>
         </div>
