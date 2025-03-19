@@ -65,35 +65,6 @@ pub fn Collapsible(props: &Props) -> Html {
                 <span  style="float:left" >{"数据列表"}</span>
                 <button  >{"添加任务"}</button>
             </div>
-            <div style="min-width:600px;">
-                <table style="border-collapse: collapse; width: 100%;">
-                    <thead style="border: 2px solid #666;" >
-                        <tr>
-                            //<th style="border: 1px solid #999; padding: 8px;" >{"任务编号"}</th>
-                        {header_text.clone().into_iter()
-                            .map(|x|{html!{
-                            <th style="border: 1px solid #999; padding: 8px;" >{x}</th>
-                        }})
-                            .collect::<Html>()
-                        }
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        body_vec
-                        .into_iter()
-                        .map(|line|{
-                        html!{
-                            <tr>{
-                                line.into_iter()
-                                .map(|x|{html!{<td style="border: 1px solid #999; padding: 8px;">{x}</td>}})
-                                .collect::<Html>()
-                            }</tr>
-                       }}).collect::<Html>()
-                    }
-                </tbody>
-                </table>
-            </div>
         </div>
     }
 }

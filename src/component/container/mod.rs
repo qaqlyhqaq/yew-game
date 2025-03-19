@@ -81,6 +81,14 @@ pub fn ContainerLyh() -> Html {
 
     let vertical_div_items = vec!["全部任务","我创建的任务","我参与的任务","下属的任务"];
 
+
+    let header_text = vec!["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
+
+    let mut body_vec = vec![];
+    for i in 0..10{
+        body_vec.push(header_text.clone())
+    }
+
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
             <Children/>
@@ -94,7 +102,7 @@ pub fn ContainerLyh() -> Html {
             .collect::<Vec<_>>()
             }
             </VerticalDiv>
-         <div  style="display: flex;"  >
+         <div  style="display: flex;flex-direction: column;"  >
             <Collapsible title="展开">
                     <label>{"任务名称:"}</label>
                     <input type="text" placeholder="任务编号/任务名称" name="<UNK>" id="<UNK>" checked=true/>
@@ -120,6 +128,34 @@ pub fn ContainerLyh() -> Html {
                         <option selected=true>{"选项三"}</option>
                     </select>
             </Collapsible >
+            <div style="min-width:600px;">
+                <table style="border-collapse: collapse; width: 100%;">
+                    <thead style="border: 2px solid #666;" >
+                        <tr>
+                        {header_text.clone().into_iter()
+                            .map(|x|{html!{
+                            <th style="border: 1px solid #999; padding: 8px;" >{x}</th>
+                        }})
+                            .collect::<Html>()
+                        }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        body_vec
+                        .into_iter()
+                        .map(|line|{
+                        html!{
+                            <tr>{
+                                line.into_iter()
+                                .map(|x|{html!{<td style="border: 1px solid #999; padding: 8px;">{x}</td>}})
+                                .collect::<Html>()
+                            }</tr>
+                       }}).collect::<Html>()
+                    }
+                </tbody>
+                </table>
+            </div>
         </div>
         </div>
         </ContextProvider<MessageContext>>
