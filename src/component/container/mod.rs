@@ -97,7 +97,7 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
         body_vec.push(header_text.clone())
     }
 
-    let node_ref = prop.clone().t_body_ref.clone();
+    let node_ref = prop.t_body_ref.clone();
 
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
