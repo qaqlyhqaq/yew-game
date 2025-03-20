@@ -78,6 +78,7 @@ pub type MessageContext = UseReducerHandle<AppState>;
 
 #[derive(Properties, Debug, PartialEq)]
 pub struct ContainerProperties {
+    #[prop_or_default]
     pub t_body_ref: NodeRef,
 }
 
