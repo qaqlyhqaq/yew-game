@@ -201,20 +201,10 @@ pub fn Children() -> Html {
 
     html! {
         <>
-        <>
         {for child.into_iter()
         .map(|item|html!{
             <Producer title={item} size={(80,30)} />
         })}
-        </>
-            <br/>
-            <span>{
-            if msg_ctx.atomic_count == AppState::default().atomic_count{
-                "未开始点击".to_string()
-            }else{
-            format!("内容:{}->{}",msg_ctx.theme,msg_ctx.atomic_count)
-            }
-        }</span>
         </>
     }
 }

@@ -4,6 +4,7 @@
 
 use yew::{function_component, html};
 
+//辅助 tt 下坠,帮助构造点击方法,避免本地变量声明周期逃离问题
 #[allow(unused)]
 #[macro_export]
 macro_rules!  structure_plural_function{
@@ -25,6 +26,7 @@ macro_rules!  structure_plural_function{
             html! {
             <button  style={style}  onclick={move  |_:yew::html::onclick::Event|
             {
+                //处理按钮点击分发事件
                 let active =  {
                     ActiveWrapper::ClickButton($name.to_string())
                 };
