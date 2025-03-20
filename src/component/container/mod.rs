@@ -82,7 +82,8 @@ pub struct ContainerProperties {
     pub t_body_ref: NodeRef,
 }
 
-//style="display: flex; flex-direction: column;"
+/// 内容提供着,为页面提供点击的任务状态,
+/// 以及任务所有着状态信息!
 #[function_component(MainContainer)]
 pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
