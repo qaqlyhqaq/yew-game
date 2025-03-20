@@ -1,6 +1,6 @@
 mod component;
 
-use crate::component::container::{Container, ContainerLyh};
+use crate::component::container::ContainerLyh;
 use gloo::console;
 use yew::prelude::*;
 
