@@ -103,13 +103,13 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
             <Children/>
         <div  style="display: flex; row: column;"  >
             <VerticalDiv >
-        <span>{"任务分类"}</span>
-        {
-            vertical_div_items
-            .into_iter()
-            .map(|item| {html!{<button >{item}</button>}})
-            .collect::<Vec<_>>()
-            }
+                <span>{"任务分类"}</span>
+                {
+                    vertical_div_items
+                        .into_iter()
+                        .map(|item| {html!{<button >{item}</button>}})
+                        .collect::<Vec<_>>()
+                }
             </VerticalDiv>
          <div  style="display: flex;flex-direction: column;"  >
             <Collapsible button_back_call={Callback::from(move |_|{
