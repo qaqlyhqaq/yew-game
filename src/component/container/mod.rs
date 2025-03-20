@@ -180,20 +180,9 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                         </tr>
                     </thead>
                     <tbody  ref={prop.t_body_ref.clone()}  >
-                    // {
-                    //     body_vec
-                    //     .into_iter()
-                    //     .map(|line|{
-                    //     html!{
-                    //         <tr>{
-                    //             line.into_iter()
-                    //             .map(|x|{html!{<td style="border: 1px solid #999; padding: 8px;">{x}</td>}})
-                    //             .collect::<Html>()
-                    //         }</tr>
-                    //    }}).collect::<Html>()
-                    // }
-                </tbody>
+                    </tbody>
                 </table>
+                //下分页配置选项
                 <div  style="margin-left:200px;display: grid; grid-template-columns: 1fr 2fr 5fr;">
                     <span>{"共10页/100条数据"}</span>
                     //定义 ref 标签,后续进行自定义渲染分页标签列表到此
