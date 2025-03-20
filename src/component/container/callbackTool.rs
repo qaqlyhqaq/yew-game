@@ -13,7 +13,7 @@ macro_rules!  structure_plural_function{
         if $properties.title.clone().eq($name){
             let mut style = String::from("padding-left: 1px;");
                 style.push_str("padding-right: 20px;");
-                style.push_str("margin-left: 20px;");
+                style.push_str("margin-left: 20px;margin-top: 15px;margin-bottom: 13px;");
             let _ = $properties.size.is_some_and(|t| {
                 style.push_str(format!("height:{}px;", t.1).as_str());
                 true

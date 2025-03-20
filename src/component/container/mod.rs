@@ -200,12 +200,12 @@ pub fn Children() -> Html {
     ];
 
     html! {
-        <>
+        <div style="display: block;background-color: #E9967A;" >
         {for child.into_iter()
         .map(|item|html!{
             <Producer title={item} size={(80,30)} />
         })}
-        </>
+        </div>
     }
 }
 

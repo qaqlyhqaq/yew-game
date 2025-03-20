@@ -64,7 +64,7 @@ pub fn Collapsible(props: &Props) -> Html {
                 }
             </div>
             <div style="text-align:right;min-width:600px;">
-                <span  style="float:left" >{"数据列表"}</span>
+                <span  style="float:left;" >{"数据列表"}</span>
                 <button onclick={Callback::from(move |x| {
                         button_call_back.emit(());
                 })} >{"添加任务"}</button>

@@ -7,7 +7,10 @@ use yew::prelude::*;
 #[function_component(App)]
 fn app() -> Html {
     html! {
-        <MainContainer  />
+        <>
+            <span>{"任务管理"}</span>
+            <MainContainer  />
+        </>
     }
 }
 
