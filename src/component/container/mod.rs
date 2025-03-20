@@ -191,7 +191,7 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
                     // }
                 </tbody>
                 </table>
-                <div  style="margin-left:100px;display: grid; grid-template-columns: 1fr 2fr 5fr;">
+                <div  style="margin-left:200px;display: grid; grid-template-columns: 1fr 2fr 5fr;">
                     <span>{"共10页/100条数据"}</span>
                     //定义 ref 标签,后续进行自定义渲染分页标签列表到此
                     <div  ></div>
