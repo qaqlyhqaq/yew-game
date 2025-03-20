@@ -79,7 +79,7 @@ pub type MessageContext = UseReducerHandle<AppState>;
 #[derive(Properties, Debug, PartialEq)]
 pub struct ContainerProperties {
     #[prop_or_default]
-    pub t_body_ref: NodeRef,
+    pub table_body_ref: NodeRef,
 }
 
 /// 内容提供着,为页面提供点击的任务状态,
@@ -98,7 +98,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
         body_vec.push(header_text.clone())
     }
 
-    let node_ref = prop.t_body_ref.clone();
+    let node_ref = prop.table_body_ref.clone();
 
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
@@ -180,7 +180,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                         }
                         </tr>
                     </thead>
-                    <tbody  ref={prop.t_body_ref.clone()}  >
+                    <tbody  ref={prop.table_body_ref.clone()}  >
                     </tbody>
                 </table>
                 //下分页配置选项
