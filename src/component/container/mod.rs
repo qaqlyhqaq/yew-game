@@ -3,17 +3,16 @@ mod verticalDiv;
 mod collapsible;
 mod trConponent;
 
+use crate::component::container::collapsible::Collapsible;
+use crate::component::container::trConponent::TrConponent;
 use crate::component::container::verticalDiv::VerticalDiv;
 use crate::structure_plural_function;
 use derivative::Derivative;
+use gloo::utils::document;
 use std::collections::HashMap;
 use std::rc::Rc;
-use gloo::timers::callback::Interval;
-use gloo::utils::document;
 use web_sys::Element;
 use yew::{function_component, html, use_context, use_reducer, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle};
-use crate::component::container::collapsible::Collapsible;
-use crate::component::container::trConponent::{TrConponent, TrProperties};
 
 
 pub enum ActiveWrapper {
