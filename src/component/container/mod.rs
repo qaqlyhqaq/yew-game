@@ -122,10 +122,9 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
             </VerticalDiv>
          <div  style="display: flex;flex-direction: column;"  >
             <Collapsible button_back_call={Callback::from(move |_|{
-                        gloo::console::log!("执行插入操作!");
         let app_container = node_ref
             .cast::<Element>()
-            .expect("Failed to cast app container div to HTMLElement");
+            .expect("对象或许还未挂载!");
 
         let app_div = document()
             .create_element("tr")
