@@ -9,7 +9,7 @@ pub struct TrProperties {
 }
 
 #[function_component(TrConponent)]
-pub fn tr_conponent() -> Html {
+pub fn tr_children_component() -> Html {
 
 
     let header_text = vec!["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
