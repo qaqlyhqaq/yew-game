@@ -83,8 +83,8 @@ pub struct ContainerProperties {
 }
 
 //style="display: flex; flex-direction: column;"
-#[function_component]
-pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
+#[function_component(MainContainer)]
+pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
     let vertical_div_items = vec!["全部任务","我创建的任务","我参与的任务","下属的任务"];
