@@ -122,23 +122,23 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
             </VerticalDiv>
          <div  style="display: flex;flex-direction: column;"  >
             <Collapsible button_back_call={Callback::from(move |_|{
-        let app_container = node_ref
-            .cast::<Element>()
-            .expect("对象或许还未挂载!");
+                    let app_container = node_ref
+                        .cast::<Element>()
+                        .expect("对象或许还未挂载!");
 
-        let app_div = document()
-            .create_element("tr")
-            .expect("Failed to create <tr> element");
+                    let app_div = document()
+                        .create_element("tr")
+                        .expect("Failed to create <tr> element");
 
-        let _ = app_container
-            .append_child(&app_div)
-            .expect("Failed to append app div app container div");
+                    let _ = app_container
+                        .append_child(&app_div)
+                        .expect("Failed to append app div app container div");
 
-        let new_counter_app = yew::Renderer::<TrConponent>::with_root_and_props(
-            app_div.clone(),
-            (),
-        )
-            .render();
+                    let new_counter_app = yew::Renderer::<TrConponent>::with_root_and_props(
+                        app_div.clone(),
+                        (),
+                    )
+                    .render();
                     })}  title="展开">
                     <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
                     <div>
