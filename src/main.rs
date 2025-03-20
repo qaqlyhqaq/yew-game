@@ -7,7 +7,7 @@ use yew::prelude::*;
 #[function_component(App)]
 fn app() -> Html {
     html! {
-        <ContainerLyh/>
+        <ContainerLyh t_body_ref={NodeRef::default() } />
     }
 }
 

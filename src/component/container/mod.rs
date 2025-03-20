@@ -1,17 +1,19 @@
 mod callbackTool;
 mod verticalDiv;
 mod collapsible;
+mod trConponent;
 
 use crate::component::container::verticalDiv::VerticalDiv;
 use crate::structure_plural_function;
 use derivative::Derivative;
 use std::collections::HashMap;
 use std::rc::Rc;
-use yew::{
-    function_component, html, use_context, use_reducer, Component,
-    ContextProvider, Html, Properties, Reducible, UseReducerHandle,
-};
+use gloo::timers::callback::Interval;
+use gloo::utils::document;
+use web_sys::Element;
+use yew::{function_component, html, use_context, use_reducer, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle};
 use crate::component::container::collapsible::Collapsible;
+use crate::component::container::trConponent::{TrConponent, TrProperties};
 
 /// 表达一个导出module 容器,根据获取父组件id,来记录组件
 ///  大小,夫组件id,以及其他详细内容
@@ -74,9 +76,14 @@ impl Reducible for AppState {
 
 pub type MessageContext = UseReducerHandle<AppState>;
 
+#[derive(Properties, Debug, PartialEq)]
+pub struct ContainerProperties {
+    pub t_body_ref: NodeRef,
+}
+
 //style="display: flex; flex-direction: column;"
 #[function_component]
-pub fn ContainerLyh() -> Html {
+pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
     let vertical_div_items = vec!["全部任务","我创建的任务","我参与的任务","下属的任务"];
@@ -88,6 +95,17 @@ pub fn ContainerLyh() -> Html {
     for i in 0..10{
         body_vec.push(header_text.clone())
     }
+
+    let node_ref = prop.clone().t_body_ref.clone();
+
+    let interval = Interval::new(100 * 10, move || {
+
+    });
+
+    interval.forget();
+
+
+
 
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
@@ -103,7 +121,26 @@ pub fn ContainerLyh() -> Html {
             }
             </VerticalDiv>
          <div  style="display: flex;flex-direction: column;"  >
-            <Collapsible title="展开">
+            <Collapsible button_back_call={Callback::from(move |_|{
+                        gloo::console::log!("执行插入操作!");
+        let app_container = node_ref
+            .cast::<Element>()
+            .expect("Failed to cast app container div to HTMLElement");
+
+        let app_div = document()
+            .create_element("tr")
+            .expect("Failed to create <tr> element");
+
+        let _ = app_container
+            .append_child(&app_div)
+            .expect("Failed to append app div app container div");
+
+        let new_counter_app = yew::Renderer::<TrConponent>::with_root_and_props(
+            app_div.clone(),
+            (),
+        )
+            .render();
+                    })}  title="展开">
                     <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
                     <div>
                     <label>{"任务名称:"}</label>
@@ -148,19 +185,19 @@ pub fn ContainerLyh() -> Html {
                         }
                         </tr>
                     </thead>
-                    <tbody>
-                    {
-                        body_vec
-                        .into_iter()
-                        .map(|line|{
-                        html!{
-                            <tr>{
-                                line.into_iter()
-                                .map(|x|{html!{<td style="border: 1px solid #999; padding: 8px;">{x}</td>}})
-                                .collect::<Html>()
-                            }</tr>
-                       }}).collect::<Html>()
-                    }
+                    <tbody  ref={prop.t_body_ref.clone()}  >
+                    // {
+                    //     body_vec
+                    //     .into_iter()
+                    //     .map(|line|{
+                    //     html!{
+                    //         <tr>{
+                    //             line.into_iter()
+                    //             .map(|x|{html!{<td style="border: 1px solid #999; padding: 8px;">{x}</td>}})
+                    //             .collect::<Html>()
+                    //         }</tr>
+                    //    }}).collect::<Html>()
+                    // }
                 </tbody>
                 </table>
             </div>

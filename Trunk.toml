@@ -1,6 +1,6 @@
 [serve]
 port = 8000
-addresses=["127.0.0.1"]
+addresses=["127.0.0.1","0.0.0.0"]
 
 [build]
 target = "index.html"
