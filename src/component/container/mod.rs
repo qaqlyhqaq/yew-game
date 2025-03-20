@@ -117,6 +117,7 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
                         .cast::<Element>()
                         .expect("对象或许还未挂载!");
 
+                    //此处创建 Table 下 Tr 对象 , 方便子内容进行表格布局合并操作
                     let app_div = document()
                         .create_element("tr")
                         .expect("Failed to create <tr> element");
@@ -190,6 +191,16 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
                     // }
                 </tbody>
                 </table>
+                <div  style="margin-left:100px;display: grid; grid-template-columns: 1fr 2fr 5fr;">
+                    <span>{"共10页/100条数据"}</span>
+                    //定义 ref 标签,后续进行自定义渲染分页标签列表到此
+                    <div  ></div>
+                    <div>
+                        <span>{"跳至"}</span>
+                        <input  type="number" />
+                        <span>{"页"}</span>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
