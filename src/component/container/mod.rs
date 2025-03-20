@@ -22,6 +22,16 @@ pub enum ActiveWrapper {
     TotalCountStateUpdate(HashMap<String, usize>),
 }
 
+#[derive(Clone, PartialEq, Debug, Eq, Derivative)]
+#[derivative(Default)]
+struct ButtonState {
+    //最后点击完成状态按钮事件
+    #[derivative(Default(value = "None"))]
+    last_click_compile_button: Option<String>,
+    //最后点击,任务分类按钮状态
+    #[derivative(Default(value = "None"))]
+    last_click_task_classify_button: Option<String>,
+}
 
 // 定义共享状态结构体
 #[derive(Clone, PartialEq, Debug, Eq, Derivative)]
@@ -29,9 +39,13 @@ pub enum ActiveWrapper {
 pub struct AppState {
     #[derivative(Default(value = r#""我是主题字段!".to_string()"#))]
     pub theme: String,
+    //按钮被点击次数字段
     #[derivative(Default(value = "0"))]
     atomic_count: isize,
+    //按钮属性字段
     pub hash_map: HashMap<String, usize>,
+    //默认外部选项按钮字段结构
+    pub  button_state:ButtonState,
 }
 
 impl Reducible for AppState {
@@ -42,6 +56,7 @@ impl Reducible for AppState {
             theme: self.theme.clone(),
             atomic_count: self.atomic_count,
             hash_map: self.hash_map.clone(),
+            button_state: self.button_state.clone(),
         };
         match action {
             ActiveWrapper::ClickButton(name) => {
@@ -172,7 +187,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                     <div  ></div>
                     <div>
                         <span>{"跳至"}</span>
-                        <input  type="number" />
+                        <input value={1} type="number" />
                         <span>{"页"}</span>
                     </div>
                 </div>
