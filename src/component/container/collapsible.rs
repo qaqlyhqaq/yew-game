@@ -47,8 +47,8 @@ pub fn Collapsible(props: &Props) -> Html {
 
     html! {
         <div >
-            <div  style="text-align:right;min-width:600px;" onclick={ontoggle}>
-                <span  style="float:left;"  class="arrow">{ arrow }</span>
+            <div  style="text-align:right;min-width:600px;" >
+                <span onclick={ontoggle}  style="float:left;"  class="arrow">{ arrow }</span>
                 <span style="float:left;" class="title">{ &props.title }</span>
                 <button  >{"查询结果"}</button>
             </div>
