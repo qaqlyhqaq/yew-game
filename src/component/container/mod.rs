@@ -98,15 +98,6 @@ pub fn ContainerLyh(prop:&ContainerProperties) -> Html {
 
     let node_ref = prop.clone().t_body_ref.clone();
 
-    let interval = Interval::new(100 * 10, move || {
-
-    });
-
-    interval.forget();
-
-
-
-
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
             <Children/>
