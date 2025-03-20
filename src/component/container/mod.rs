@@ -134,6 +134,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                     .render();
                     })}  title="展开">
                     <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
+                    //第一行输入信息栏
                     <div>
                     <label>{"任务名称:"}</label>
                     <input type="text" placeholder="任务编号/任务名称" name="<UNK>" id="<UNK>" checked=true/>
@@ -156,6 +157,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                     </div>
                     </div>
                     <br/>
+                    //第二行输入信息栏
                     <label>{"负责人:"}</label>
                     <input type="text" placeholder="负责人姓名" name="<UNK>" id="<UNK>" checked=true/>
                     <label>{"状态:"}</label>
