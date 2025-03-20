@@ -31,6 +31,9 @@ struct ButtonState {
     //最后点击,任务分类按钮状态
     #[derivative(Default(value = "None"))]
     last_click_task_classify_button: Option<String>,
+    //最后修改分页状态
+    #[derivative(Default(value = "None"))]
+    last_page_state: Option<u32>,
 }
 
 // 定义共享状态结构体
