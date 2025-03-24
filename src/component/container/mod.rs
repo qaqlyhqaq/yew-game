@@ -13,6 +13,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 use web_sys::Element;
 use yew::{function_component, html, use_context, use_reducer, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle};
+use crate::net::task_manage::TaskClient;
 // use yew::format::Nothing;
 // use yew::services::fetch::Request;
 
@@ -79,6 +80,8 @@ pub type MessageContext = UseReducerHandle<AppState>;
 pub struct ContainerProperties {
     #[prop_or_default]
     pub table_body_ref: NodeRef,
+    #[prop_or_default]
+    client:TaskClient,
 }
 
 static   vertical_div_items: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];

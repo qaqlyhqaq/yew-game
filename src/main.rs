@@ -20,10 +20,10 @@ fn app() -> Html {
 fn main() {
     wasm_logger::init(wasm_logger::Config::default());
 
-    wasm_bindgen_futures::spawn_local(async move {
-        let client:TaskClient = TaskClient {
-        };
-        TaskClient::login().await;
-    });
+    // wasm_bindgen_futures::spawn_local(async move {
+    //     let client:TaskClient = TaskClient::default();
+    //     //执行登录操作
+    //     client.token.replace(Some(TaskClient::login().await));
+    // });
     yew::Renderer::<App>::new().render();
 }
