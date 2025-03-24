@@ -27,8 +27,6 @@ pub trait ClientBase{
   "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImE5MjMyOTI0LTA4MDItNDQyOC05OGY3LWIxMGQ2MDRlYjcxNiJ9.vyKblmD1Tjy9R7wCVcrGsFnBtsB6-wUqOc5I-oQLUzIKwypFJ37WU-qebw6n9bJhm2eTtwFuBCOQPv14IHCuFQ"
 }
         );
-
-        Self::TOKEN.replace(None);
         let login_url = format!("{}/login", Self::SERVICE_ADDRESS_PREFIX);
         let response = Request::post(login_url.as_str())
             .header("Content-Type", "application/json")
@@ -42,9 +40,9 @@ pub trait ClientBase{
             .await
             .unwrap();
         let token_string = value.as_object().unwrap().get("token").unwrap().as_str().unwrap().to_string();
-        
+
         log::log!(log::Level::Info, "Login successful {} !", &token_string);
-        
+
         Self::TOKEN.replace(Some(token_string));
     }
 }

@@ -1,10 +1,11 @@
 mod component;
 mod net;
 
+use std::sync::Arc;
 use crate::component::container::MainContainer;
-use gloo::console;
 use yew::prelude::*;
-use crate::net::request;
+use crate::net::request::ClientBase;
+use crate::net::task_manage::TaskClient;
 
 #[function_component(App)]
 fn app() -> Html {
@@ -20,7 +21,10 @@ fn main() {
     wasm_logger::init(wasm_logger::Config::default());
 
     wasm_bindgen_futures::spawn_local(async move {
-        request::ClientBase::login().await.to_owned();
+        let client:TaskClient = TaskClient {
+            token: Arc::new(Default::default()),
+        };
+        TaskClient::login().await;
     });
     yew::Renderer::<App>::new().render();
 }
