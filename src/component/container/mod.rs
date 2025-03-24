@@ -232,10 +232,9 @@ pub fn Children(props: &ChildrenProps) -> Html {
     ];
     let mut total_state = HashMap::new();
 
-    use_effect_with(props.client.token.take(), |token| {
+    use_effect_with(props.client.token.take(),  move|token| {
         match token {
             None => {
-                HashMap::new();
             }
             Some(token_value) => {
                 total_state = HashMap::new();
@@ -249,7 +248,7 @@ pub fn Children(props: &ChildrenProps) -> Html {
         <div style="display: block;background-color: #E9967A;" >
         {for child.into_iter()
         .map(|item|html!{
-            <Producer total_state={total_state}  title={item} size={(80,30)} />
+            <Producer total_state={total_state.clone()}  title={item} size={(80,30)} />
         })}
         </div>
     }
