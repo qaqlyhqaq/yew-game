@@ -81,7 +81,7 @@ pub struct ContainerProperties {
     #[prop_or_default]
     pub table_body_ref: NodeRef,
     #[prop_or_default]
-    client:TaskClient,
+    pub client:TaskClient,
 }
 
 static   vertical_div_items: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];
@@ -94,6 +94,11 @@ static table_header: [&str; 10] = ["任务编号","任务名称","优先级","�
 pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
+    let mut client = prop.client.clone();
+
+    if client.token.get.is_none() {
+        
+    }
 
     let node_ref = prop.table_body_ref.clone();
 

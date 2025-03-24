@@ -3,6 +3,7 @@
  */
 use std::cell::RefCell;
 use std::sync::Arc;
+use yew::html::ImplicitClone;
 use yew::Properties;
 use crate::net::request::ClientBase;
 
@@ -10,7 +11,7 @@ use crate::net::request::ClientBase;
 trait TaskManage : ClientBase{
 }
 
-#[derive(Properties, Debug, PartialEq,Default)]
+#[derive(Properties, Debug, PartialEq,Default,Clone)]
 pub struct TaskClient {
     #[prop_or_default]
     pub token: Arc<RefCell<Option<String>>>,
