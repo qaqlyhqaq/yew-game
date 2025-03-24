@@ -1,11 +1,11 @@
-mod callbackTool;
-mod verticalDiv;
+mod callback_tool;
+mod vertical_div;
 mod collapsible;
-mod trConponent;
+mod tr_component;
 
 use crate::component::container::collapsible::Collapsible;
-use crate::component::container::trConponent::TrConponent;
-use crate::component::container::verticalDiv::VerticalDiv;
+use crate::component::container::tr_component::TrConponent;
+use crate::component::container::vertical_div::VerticalDiv;
 use crate::structure_plural_function;
 use derivative::Derivative;
 use gloo::utils::document;
