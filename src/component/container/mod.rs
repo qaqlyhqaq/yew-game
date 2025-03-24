@@ -235,10 +235,10 @@ pub fn Children(props: &ChildrenProps) -> Html {
     use_effect_with(props.client.token.take(), |token| {
         match token {
             None => {
-                HashMap::new()
+                HashMap::new();
             }
             Some(token_value) => {
-                HashMap::new()
+                total_state = HashMap::new();
             }
         }
     });
