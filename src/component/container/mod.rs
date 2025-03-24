@@ -40,8 +40,6 @@ struct ButtonState {
 #[derive(Clone, PartialEq, Debug, Eq, Derivative)]
 #[derivative(Default)]
 pub struct AppState {
-    #[derivative(Default(value = r#""我是主题字段!".to_string()"#))]
-    pub theme: String,
     //按钮被点击次数字段
     #[derivative(Default(value = "0"))]
     atomic_count: isize,
@@ -56,7 +54,6 @@ impl Reducible for AppState {
 
     fn reduce(self: Rc<Self>, action: Self::Action) -> Rc<Self> {
         let mut state = AppState {
-            theme: self.theme.clone(),
             atomic_count: self.atomic_count,
             hash_map: self.hash_map.clone(),
             button_state: self.button_state.clone(),
@@ -64,7 +61,8 @@ impl Reducible for AppState {
         match action {
             ActiveWrapper::ClickButton(name) => {
                 state.atomic_count += 1;
-                state.theme = name;
+                //重置最后点击任务分类按钮状态
+                state.button_state.last_click_task_classify_button = Some(name);
             }
             ActiveWrapper::TotalCountStateUpdate(map) => {
                 state.hash_map = state.hash_map.into_iter().chain(map.into_iter()).collect();
