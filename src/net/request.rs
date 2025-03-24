@@ -46,8 +46,6 @@ pub trait ClientBase{
             .unwrap().as_str()
             .unwrap().to_string();
 
-        log::log!(log::Level::Info, "Login successful {} !", &token_string);
-
         token_string
 
     }

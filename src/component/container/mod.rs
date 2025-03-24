@@ -5,14 +5,15 @@ mod tr_component;
 
 use crate::component::container::collapsible::Collapsible;
 use crate::component::container::tr_component::TrConponent;
-use crate::component::container::vertical_div::VerticalDiv;
+use crate::component::container::vertical_div::{Props, VerticalDiv};
 use crate::structure_plural_function;
 use derivative::Derivative;
 use gloo::utils::document;
 use std::collections::HashMap;
 use std::rc::Rc;
 use web_sys::Element;
-use yew::{function_component, html, use_context, use_reducer, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle};
+use yew::{function_component, html, use_context, use_effect, use_effect_with, use_reducer, use_state, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle, UseStateHandle};
+use crate::net::request::ClientBase;
 use crate::net::task_manage::TaskClient;
 // use yew::format::Nothing;
 // use yew::services::fetch::Request;
@@ -94,17 +95,23 @@ static table_header: [&str; 10] = ["任务编号","任务名称","优先级","�
 pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
-    let mut client = prop.client.clone();
+    let  client = prop.client.clone();
 
-    if client.token.get.is_none() {
-        
-    }
+    client.token.take().is_none().then(move ||{
+        wasm_bindgen_futures::spawn_local(async move {
+            let token_string = TaskClient::login().await;
+            log::log!(log::Level::Info, "调用登录接口:{}",token_string);
+            client.token.replace(Some(token_string));
+        });
+    });
+
+
 
     let node_ref = prop.table_body_ref.clone();
 
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
-            <Children/>
+            <Children client={prop.client.clone()} />
         <div  style="display: flex; row: column;"  >
             <VerticalDiv >
                 <span>{"任务分类"}</span>
@@ -205,9 +212,13 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
 }
 
 //background:black;
+#[derive(Properties, Debug, PartialEq)]
+pub struct ChildrenProps{
+    pub client: TaskClient
+}
 
 #[function_component]
-pub fn Children() -> Html {
+pub fn Children(props: &ChildrenProps) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
     let child = vec![
@@ -220,11 +231,13 @@ pub fn Children() -> Html {
         "取消",
     ];
 
+    //创建一个汇总信息请求体
+
     html! {
         <div style="display: block;background-color: #E9967A;" >
         {for child.into_iter()
         .map(|item|html!{
-            <Producer title={item} size={(80,30)} />
+            <Producer  title={item} size={(80,30)} />
         })}
         </div>
     }
