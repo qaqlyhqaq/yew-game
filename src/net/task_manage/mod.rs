@@ -7,17 +7,14 @@ use crate::net::request::ClientBase;
 
 /// 任务管理客户端实现请求接口
 trait TaskManage : ClientBase{
-    const TOKEN: &'static Arc<RefCell<Option<String>>>;
 }
 
 pub struct TaskClient {
-    pub(crate) token:  Arc<RefCell<Option<String>>> ,
 }
 
 impl ClientBase for TaskClient {
-    const TOKEN: &'static Arc<RefCell<Option<String>>> = Self::TOKEN;
+    // const TOKEN: &'static Arc<RefCell<Option<String>>> = &Arc::new(RefCell::new(None));
 }
 
 impl TaskManage for TaskClient {
-    const TOKEN: &'static Arc<RefCell<Option<String>>> = &Self.token;
 }

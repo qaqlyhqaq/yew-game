@@ -22,7 +22,6 @@ fn main() {
 
     wasm_bindgen_futures::spawn_local(async move {
         let client:TaskClient = TaskClient {
-            token: Arc::new(Default::default()),
         };
         TaskClient::login().await;
     });

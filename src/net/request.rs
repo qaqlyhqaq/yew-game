@@ -12,25 +12,24 @@ pub trait ClientBase{
     //公共服务器地址前缀
     const SERVICE_ADDRESS_PREFIX: &'static str = "http://10.60.1.240:8081";
     //客户端token
-    const TOKEN:&'static Arc<RefCell<Option<String>>>;
+    // const TOKEN:&'static Arc<RefCell<Option<String>>>;
 
     /// trait 级别方法,
     /// 用于登录失效情况
-    async fn login(){
-
-        log::log!(log::Level::Info, "Login start !");
-
+    async fn login() -> String{
         let value1 = json!(
             {
-  "msg": "操作成功",
-  "code": 200,
-  "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImE5MjMyOTI0LTA4MDItNDQyOC05OGY3LWIxMGQ2MDRlYjcxNiJ9.vyKblmD1Tjy9R7wCVcrGsFnBtsB6-wUqOc5I-oQLUzIKwypFJ37WU-qebw6n9bJhm2eTtwFuBCOQPv14IHCuFQ"
+  "code": "",
+  "password": "admin123",
+  "status": 0,
+  "username": "admin",
+  "uuid": ""
 }
         );
         let login_url = format!("{}/login", Self::SERVICE_ADDRESS_PREFIX);
         let response = Request::post(login_url.as_str())
             .header("Content-Type", "application/json")
-            .body(value1.to_string().as_str())
+            .body(value1.to_string())
             .unwrap()
             .send()
             .await
@@ -39,11 +38,18 @@ pub trait ClientBase{
             .json::<serde_json::Value>()
             .await
             .unwrap();
-        let token_string = value.as_object().unwrap().get("token").unwrap().as_str().unwrap().to_string();
+
+        let token_string = value
+            .as_object()
+            .unwrap()
+            .get("token")
+            .unwrap().as_str()
+            .unwrap().to_string();
 
         log::log!(log::Level::Info, "Login successful {} !", &token_string);
 
-        Self::TOKEN.replace(Some(token_string));
+        token_string
+
     }
 }
 
