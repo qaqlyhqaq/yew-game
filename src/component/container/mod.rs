@@ -81,21 +81,16 @@ pub struct ContainerProperties {
     pub table_body_ref: NodeRef,
 }
 
+static   vertical_div_items: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];
+static  header_text: [&str; 10] = ["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
+
+
 /// 内容提供着,为页面提供点击的任务状态,
 /// 以及任务所有着状态信息!
 #[function_component(MainContainer)]
 pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
-    let vertical_div_items = vec!["全部任务","我创建的任务","我参与的任务","下属的任务"];
-
-
-    let header_text = vec!["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
-
-    let mut body_vec = vec![];
-    for _ in 0..10{
-        body_vec.push(header_text.clone())
-    }
 
     let node_ref = prop.table_body_ref.clone();
 
@@ -107,7 +102,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                 <span>{"任务分类"}</span>
                 {
                     vertical_div_items
-                        .into_iter()
+                        .iter()
                         .map(|item| {html!{<button >{item}</button>}})
                         .collect::<Vec<_>>()
                 }
@@ -171,7 +166,8 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                 <table style="border-collapse: collapse; width: 100%;">
                     <thead style="border: 2px solid #666;" >
                         <tr>
-                        {header_text.clone().into_iter()
+                        {header_text.clone()
+                            .iter()
                             .map(|x|{html!{
                             <th style="border: 1px solid #999; padding: 8px;" >{x}</th>
                         }})
