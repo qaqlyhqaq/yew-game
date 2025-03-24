@@ -82,7 +82,7 @@ pub struct ContainerProperties {
 }
 
 static   vertical_div_items: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];
-static  header_text: [&str; 10] = ["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
+static table_header: [&str; 10] = ["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
 
 
 /// 内容提供着,为页面提供点击的任务状态,
@@ -166,7 +166,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                 <table style="border-collapse: collapse; width: 100%;">
                     <thead style="border: 2px solid #666;" >
                         <tr>
-                        {header_text.clone()
+                        {table_header.clone()
                             .iter()
                             .map(|x|{html!{
                             <th style="border: 1px solid #999; padding: 8px;" >{x}</th>

@@ -10,6 +10,7 @@ pub struct Props {
     pub title:String,
     #[prop_or_default]
     pub children: Html,
+    #[prop_or_default]
     pub button_back_call: Callback<()>
 }
 
