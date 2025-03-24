@@ -1,4 +1,5 @@
 mod component;
+mod net;
 
 use crate::component::container::MainContainer;
 use gloo::console;
