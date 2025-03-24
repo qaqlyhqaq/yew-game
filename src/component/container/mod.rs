@@ -230,6 +230,18 @@ pub fn Children(props: &ChildrenProps) -> Html {
         "暂停",
         "取消",
     ];
+    let mut total_state = HashMap::new();
+
+    use_effect_with(props.client.token.take(), |token| {
+        match token {
+            None => {
+                HashMap::new()
+            }
+            Some(token_value) => {
+                HashMap::new()
+            }
+        }
+    });
 
     //创建一个汇总信息请求体
 
@@ -237,7 +249,7 @@ pub fn Children(props: &ChildrenProps) -> Html {
         <div style="display: block;background-color: #E9967A;" >
         {for child.into_iter()
         .map(|item|html!{
-            <Producer  title={item} size={(80,30)} />
+            <Producer total_state={total_state}  title={item} size={(80,30)} />
         })}
         </div>
     }
@@ -250,6 +262,8 @@ pub struct HeadItem {
     value: Option<String>,
     #[prop_or_default]
     size: Option<(u32, u32)>,
+    #[prop_or_default]
+    total_state: HashMap<String,usize>
 }
 
 #[function_component]
