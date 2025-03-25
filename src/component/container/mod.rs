@@ -3,6 +3,7 @@ mod vertical_div;
 mod collapsible;
 mod tr_component;
 
+use std::cell::RefCell;
 use crate::component::container::collapsible::Collapsible;
 use crate::component::container::tr_component::TrConponent;
 use crate::component::container::vertical_div::{Props, VerticalDiv};
@@ -11,8 +12,9 @@ use derivative::Derivative;
 use gloo::utils::document;
 use std::collections::{BTreeMap, HashMap};
 use std::io::Read;
-use std::ops::DerefMut;
+use std::ops::{Deref, DerefMut};
 use std::rc::Rc;
+use wasm_bindgen::__rt::Start;
 use web_sys::Element;
 use yew::{function_component, html, use_context, use_effect, use_effect_with, use_memo, use_mut_ref, use_reducer, use_state, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle, UseStateHandle};
 use crate::net::request::ClientBase;
@@ -233,10 +235,15 @@ pub fn Children(props: &ChildrenProps) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
 
+    let fetch_data = use_mut_ref(|| { BTreeMap::<String, usize>::default() });
+
+    let  x1:Rc<RefCell<BTreeMap<String,usize>>> = fetch_data.clone();
+
 
     let with = use_memo(props.client.token.take(), |token| {
         match token {
             None => {
+                log::log!(log::Level::Warn, "fetching token for {:?}", props.client);
                 let mut map = BTreeMap::<String, usize>::default();
                 for x in child {
                     map.insert(x.to_string(),0);
@@ -244,7 +251,13 @@ pub fn Children(props: &ChildrenProps) -> Html {
                 map
             }
             Some(token_value) => {
+                let fetch_client = props.client.clone();
                 //存在token 的情况,可以初始化统计数据操作
+                wasm_bindgen_futures::spawn_local(async move {
+                    let mut map1 = fetch_client.fetch_total_statues().await;
+                    x1.borrow_mut().append(&mut map1);
+                });
+                // let fetch_btree_map:BTreeMap::<String, usize> =
                 let mut map = BTreeMap::<String, usize>::default();
                 for x in child {
                     map.insert(x.to_string(),1);
