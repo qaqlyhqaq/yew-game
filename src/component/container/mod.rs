@@ -101,22 +101,21 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
 
     let client2:TaskClient = prop.client.clone();
     let  client123123:UseStateHandle<TaskClient> = use_state(move || {client2.clone() as TaskClient });
-    // let  client = prop.client.clone();
 
     let client_handle = client123123.clone();
 
-    // let client1 = client.clone();
-    prop.client.clone().token.take().is_none().then(move ||{
-        wasm_bindgen_futures::spawn_local(async move {
-            let token_string = TaskClient::login().await;
-            log::log!(log::Level::Info, "调用登录接口:{}",token_string);
-            // client.token.replace(Some(token_string));
-            // client123123.token.replace(Some(token_string));
-            client_handle.set(TaskClient{
-                token:Arc::new(RefCell::new(Some(token_string))),
+    use_effect_with(prop.client.token.take(),move |token_value| {
+        token_value.is_none().then(move ||{
+            wasm_bindgen_futures::spawn_local(async move {
+                let token_string = TaskClient::login().await;
+                log::log!(log::Level::Info, "调用登录接口:{}",token_string);
+                client_handle.set(TaskClient{
+                    token:Arc::new(RefCell::new(Some(token_string))),
+                });
             });
         });
     });
+
 
 
     let handle = client123123.clone();
