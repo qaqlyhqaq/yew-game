@@ -217,26 +217,28 @@ pub struct ChildrenProps{
     pub client: TaskClient
 }
 
+
+static  child: [&str; 7] = [
+    "全部任务",
+    "进行中",
+    "已完成",
+    "已超期",
+    "待开始",
+    "暂停",
+    "取消",
+];
+
 #[function_component]
 pub fn Children(props: &ChildrenProps) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
 
-    let child = vec![
-        "全部任务",
-        "进行中",
-        "已完成",
-        "已超期",
-        "待开始",
-        "暂停",
-        "取消",
-    ];
 
-    let child_with = child.clone();
+
     let with = use_memo(props.client.token.take(), |token| {
         match token {
             None => {
                 let mut map = BTreeMap::<String, usize>::default();
-                for x in child_with {
+                for x in child {
                     map.insert(x.to_string(),0);
                 }
                 map
@@ -244,7 +246,7 @@ pub fn Children(props: &ChildrenProps) -> Html {
             Some(token_value) => {
                 //存在token 的情况,可以初始化统计数据操作
                 let mut map = BTreeMap::<String, usize>::default();
-                for x in child_with {
+                for x in child {
                     map.insert(x.to_string(),1);
                 }
                 map
@@ -256,9 +258,9 @@ pub fn Children(props: &ChildrenProps) -> Html {
 
     html! {
         <div style="display: block;background-color: #E9967A;" >
-        {for child.into_iter()
+        {for child.iter()
         .map(move |item|{html!{
-            <Producer value={Some(with.get(item).unwrap().to_string())}  title={item} size={(80,30)} />
+            <Producer value={Some(with.get(*item).unwrap().to_string())}  title={*item} size={(80,30)} />
         }})}
         </div>
     }
