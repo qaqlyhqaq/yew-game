@@ -231,27 +231,20 @@ pub fn Children(props: &ChildrenProps) -> Html {
         "取消",
     ];
 
+    let child_with = child.clone();
     let with = use_memo(props.client.token.take(), |token| {
-        let child = vec![
-            "全部任务",
-            "进行中",
-            "已完成",
-            "已超期",
-            "待开始",
-            "暂停",
-            "取消",
-        ];
+
         match token {
             None => {
                 let mut map = BTreeMap::<String, usize>::default();
-                for x in child {
+                for x in child_with {
                     map.insert(x.to_string(),1);
                 }
                 map
             }
             Some(token_value) => {
                 let mut map = BTreeMap::<String, usize>::default();
-                for x in child {
+                for x in child_with {
                     map.insert(x.to_string(),1);
                 }
                 map
@@ -283,7 +276,7 @@ pub struct HeadItem {
 #[function_component]
 pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
-    
+
     structure_plural_function!(
         "全部任务",
         "进行中",
