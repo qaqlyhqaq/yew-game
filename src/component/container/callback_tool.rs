@@ -18,10 +18,8 @@ macro_rules!  structure_plural_function{
                 style.push_str(format!("height:{}px;", t.1).as_str());
                 true
             });
-            let title_count_str = $msg_ctx
-                .hash_map
-                .get(&$properties.title)
-                .map_or_else(|| "0".to_string(), |count| format!("{}", count));
+
+            let title_count_str = $properties.value.clone().map_or_else(|| "0".to_string(), |count| format!("{}", count));
 
             html! {
             <button  style={style}  onclick={move  |_:yew::html::onclick::Event|

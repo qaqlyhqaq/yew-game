@@ -9,14 +9,14 @@ use crate::component::container::vertical_div::{Props, VerticalDiv};
 use crate::structure_plural_function;
 use derivative::Derivative;
 use gloo::utils::document;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
+use std::io::Read;
+use std::ops::DerefMut;
 use std::rc::Rc;
 use web_sys::Element;
-use yew::{function_component, html, use_context, use_effect, use_effect_with, use_reducer, use_state, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle, UseStateHandle};
+use yew::{function_component, html, use_context, use_effect, use_effect_with, use_memo, use_mut_ref, use_reducer, use_state, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle, UseStateHandle};
 use crate::net::request::ClientBase;
 use crate::net::task_manage::TaskClient;
-// use yew::format::Nothing;
-// use yew::services::fetch::Request;
 
 pub enum ActiveWrapper {
     //按钮点击操作
@@ -27,7 +27,7 @@ pub enum ActiveWrapper {
 
 #[derive(Clone, PartialEq, Debug, Eq, Derivative)]
 #[derivative(Default)]
-struct ButtonState {
+pub struct ButtonState {
     //最后点击完成状态按钮事件
     #[derivative(Default(value = "None"))]
     last_click_compile_button: Option<String>,
@@ -85,8 +85,8 @@ pub struct ContainerProperties {
     pub client:TaskClient,
 }
 
-static   vertical_div_items: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];
-static table_header: [&str; 10] = ["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
+static VERTICAL_DIV_ITEMS: [&str; 4] = ["全部任务", "我创建的任务", "我参与的任务", "下属的任务"];
+static TABLE_HEADER: [&str; 10] = ["任务编号","任务名称","优先级","所属项目","项目阶段","负责人","起止时间","任务进度","状态","操作"];
 
 
 /// 内容提供着,为页面提供点击的任务状态,
@@ -116,7 +116,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
             <VerticalDiv >
                 <span>{"任务分类"}</span>
                 {
-                    vertical_div_items
+                    VERTICAL_DIV_ITEMS
                         .iter()
                         .map(|item| {html!{<button >{item}</button>}})
                         .collect::<Vec<_>>()
@@ -181,7 +181,7 @@ pub fn container_component(prop:&ContainerProperties) -> Html {
                 <table style="border-collapse: collapse; width: 100%;">
                     <thead style="border: 2px solid #666;" >
                         <tr>
-                        {table_header.clone()
+                        {TABLE_HEADER.clone()
                             .iter()
                             .map(|x|{html!{
                             <th style="border: 1px solid #999; padding: 8px;" >{x}</th>
@@ -230,14 +230,31 @@ pub fn Children(props: &ChildrenProps) -> Html {
         "暂停",
         "取消",
     ];
-    let mut total_state = HashMap::new();
 
-    use_effect_with(props.client.token.take(),  move|token| {
+    let with = use_memo(props.client.token.take(), |token| {
+        let child = vec![
+            "全部任务",
+            "进行中",
+            "已完成",
+            "已超期",
+            "待开始",
+            "暂停",
+            "取消",
+        ];
         match token {
             None => {
+                let mut map = BTreeMap::<String, usize>::default();
+                for x in child {
+                    map.insert(x.to_string(),1);
+                }
+                map
             }
             Some(token_value) => {
-                total_state = HashMap::new();
+                let mut map = BTreeMap::<String, usize>::default();
+                for x in child {
+                    map.insert(x.to_string(),1);
+                }
+                map
             }
         }
     });
@@ -247,9 +264,9 @@ pub fn Children(props: &ChildrenProps) -> Html {
     html! {
         <div style="display: block;background-color: #E9967A;" >
         {for child.into_iter()
-        .map(|item|html!{
-            <Producer total_state={total_state.clone()}  title={item} size={(80,30)} />
-        })}
+        .map(move |item|{html!{
+            <Producer value={Some(with.get(item).unwrap().to_string())}  title={item} size={(80,30)} />
+        }})}
         </div>
     }
 }
@@ -261,13 +278,12 @@ pub struct HeadItem {
     value: Option<String>,
     #[prop_or_default]
     size: Option<(u32, u32)>,
-    #[prop_or_default]
-    total_state: HashMap<String,usize>
 }
 
 #[function_component]
 pub fn Producer(head_item: &HeadItem) -> Html {
     let msg_ctx = use_context::<MessageContext>().unwrap();
+    
     structure_plural_function!(
         "全部任务",
         "进行中",
