@@ -14,9 +14,11 @@ use std::collections::{BTreeMap, HashMap};
 use std::io::Read;
 use std::ops::{Deref, DerefMut};
 use std::rc::Rc;
+use std::sync::Arc;
 use wasm_bindgen::__rt::Start;
 use web_sys::Element;
 use yew::{function_component, html, use_context, use_effect, use_effect_with, use_memo, use_mut_ref, use_reducer, use_state, Callback, Component, ContextProvider, Html, NodeRef, Properties, Reducible, UseReducerHandle, UseStateHandle};
+use crate::component::container::_ChildrenProps::client;
 use crate::net::request::ClientBase;
 use crate::net::task_manage::TaskClient;
 
@@ -97,23 +99,33 @@ static TABLE_HEADER: [&str; 10] = ["任务编号","任务名称","优先级","�
 pub fn container_component(prop:&ContainerProperties) -> Html {
     let msg_ctx = use_reducer::<AppState, _>(|| AppState::default());
 
-    let  client = prop.client.clone();
+    let client2:TaskClient = prop.client.clone();
+    let  client123123:UseStateHandle<TaskClient> = use_state(move || {client2.clone() as TaskClient });
+    // let  client = prop.client.clone();
 
-    client.token.take().is_none().then(move ||{
+    let client_handle = client123123.clone();
+
+    // let client1 = client.clone();
+    prop.client.clone().token.take().is_none().then(move ||{
         wasm_bindgen_futures::spawn_local(async move {
             let token_string = TaskClient::login().await;
             log::log!(log::Level::Info, "调用登录接口:{}",token_string);
-            client.token.replace(Some(token_string));
+            // client.token.replace(Some(token_string));
+            // client123123.token.replace(Some(token_string));
+            client_handle.set(TaskClient{
+                token:Arc::new(RefCell::new(Some(token_string))),
+            });
         });
     });
 
 
+    let handle = client123123.clone();
 
     let node_ref = prop.table_body_ref.clone();
 
     html! {
         <ContextProvider<MessageContext> context={msg_ctx}>
-            <Children client={prop.client.clone()} />
+            <Children client={handle.deref().clone()} />
         <div  style="display: flex; row: column;"  >
             <VerticalDiv >
                 <span>{"任务分类"}</span>

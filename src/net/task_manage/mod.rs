@@ -23,6 +23,9 @@ impl TaskClient {
     pub(crate) async fn fetch_total_statues(&self) -> BTreeMap<String, usize> {
         log::log!(log::Level::Info, "fetching...");
         let total_url = format!("{}/project/phase/task/numbers", TaskClient::SERVICE_ADDRESS_PREFIX);
+        if self.token.take().is_none()  {
+            return BTreeMap::new();
+        }
         let token = self.token.take().unwrap();
         let response = Request::get(total_url.as_str())
             .header("Authorization", token.as_str())
