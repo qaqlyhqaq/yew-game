@@ -233,16 +233,16 @@ pub fn Children(props: &ChildrenProps) -> Html {
 
     let child_with = child.clone();
     let with = use_memo(props.client.token.take(), |token| {
-
         match token {
             None => {
                 let mut map = BTreeMap::<String, usize>::default();
                 for x in child_with {
-                    map.insert(x.to_string(),1);
+                    map.insert(x.to_string(),0);
                 }
                 map
             }
             Some(token_value) => {
+                //存在token 的情况,可以初始化统计数据操作
                 let mut map = BTreeMap::<String, usize>::default();
                 for x in child_with {
                     map.insert(x.to_string(),1);
